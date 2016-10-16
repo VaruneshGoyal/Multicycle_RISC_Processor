@@ -8,7 +8,7 @@ use work.Microprocessor_project.all;
 
 entity Data_MUX is
 generic (control_bit_width:integer);
-port(Din:in Data_in( 7 downto 0);
+port(Din:in Data_in( 2**control_bit_width downto 0);
 	Dout:out std_logic_vector(15 downto 0);
 	control_bits:in std_logic_vector(control_bit_width-1 downto 0)
 );

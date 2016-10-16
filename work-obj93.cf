@@ -1,34 +1,56 @@
 v 3
-file . "Memory.vhd" "20161015151232.000" "20161015204411.971":
-  entity memory at 2( 1) + 0 on 222;
-  architecture formula_memory of memory at 16( 316) + 0 on 223;
-file . "DataRegister.vhd" "20160320081231.000" "20161015204411.919":
-  entity dataregister at 2( 1) + 0 on 218;
-  architecture behave of dataregister at 10( 259) + 0 on 219;
-file . "register_file.vhd" "20161015143129.000" "20161015204412.020":
-  entity reg_file at 1( 0) + 0 on 226;
-  architecture formula_rf of reg_file at 16( 343) + 0 on 227;
-file . "Data_MUX.vhd" "20161015144047.000" "20161015204411.898":
-  entity data_mux at 1( 0) + 0 on 216;
-  architecture formula_mux of data_mux at 18( 407) + 0 on 217;
-file . "Data_extender_9to16.vhd" "20161015141311.000" "20161015204411.860":
-  entity data_extender_9to16 at 1( 0) + 0 on 214;
-  architecture formula_de_9to16 of data_extender_9to16 at 13( 188) + 0 on 215;
-file . "sign_extender_6to16.vhd" "20161014163545.000" "20161015204412.084":
-  entity mux_10bit at 1( 0) + 0 on 228;
-  architecture formula_mux_10b of mux_10bit at 12( 186) + 0 on 229;
-  entity sign_extender_6to16 at 32( 705) + 0 on 230;
-  architecture formula_se_6to16 of sign_extender_6to16 at 43( 892) + 0 on 231;
-  entity sign_extender_9to16 at 70( 1231) + 0 on 232;
-  architecture formula_se_9to16 of sign_extender_9to16 at 81( 1418) + 0 on 233;
+file . "zero_checker.vhd" "20161016072821.000" "20161016130052.026":
+  entity zero_checker at 1( 0) + 0 on 489;
+  architecture formula_zc of zero_checker at 13( 164) + 0 on 490;
+file . "sign_extender_alu.vhd" "20161015164307.000" "20161016130051.929":
+  entity sign_extender_alu at 1( 0) + 0 on 483;
+  architecture formula_se of sign_extender_alu at 12( 187) + 0 on 484;
+file . "inverter.vhd" "20161008101129.000" "20161016130051.788":
+  entity inverter at 1( 0) + 0 on 475;
+  architecture formula_inv of inverter at 10( 170) + 0 on 476;
+file . "ALU.vhd" "20161016072749.000" "20161016130051.589":
+  entity alu at 1( 0) + 0 on 460;
+  architecture formula_alu of alu at 18( 318) + 0 on 461;
+file . "ALU_adder.vhd" "20161016072130.000" "20161016130051.540":
+  entity alu_adder at 1( 0) + 0 on 456;
+  architecture formula_adder of alu_adder at 16( 344) + 0 on 457;
+file . "sign_extender.vhd" "20161015164202.000" "20161016130051.966":
+  entity sign_extender_6to16 at 1( 0) + 0 on 485;
+  architecture formula_se_6to16 of sign_extender_6to16 at 12( 187) + 0 on 486;
+  entity sign_extender_9to16 at 39( 526) + 0 on 487;
+  architecture formula_se_9to16 of sign_extender_9to16 at 50( 713) + 0 on 488;
+file . "Component_file.vhd" "20161016071705.000" "20161016130051.641":
+  package microprocessor_project at 1( 0) + 0 on 464;
+file . "decoder_pe.vhd" "20161014150644.000" "20161016130051.734":
+  entity decoder_pe at 2( 1) + 0 on 471;
+  architecture formula_decoder_pe of decoder_pe at 14( 178) + 0 on 472;
+file . "priority_encoder.vhd" "20161014150034.000" "20161016130051.827":
+  entity priority_encoder at 2( 1) + 0 on 479;
+  architecture formula_pe of priority_encoder at 14( 190) + 0 on 480;
 file . "decoder.vhd" "20161014150548.000" "20161014203612.867":
   entity decoder at 2( 1) + 0 on 17;
   architecture formula_decoder of decoder at 14( 172) + 0 on 18;
-file . "priority_encoder.vhd" "20161014150034.000" "20161015204411.993":
-  entity priority_encoder at 2( 1) + 0 on 224;
-  architecture formula_pe of priority_encoder at 14( 190) + 0 on 225;
-file . "decoder_pe.vhd" "20161014150644.000" "20161015204411.937":
-  entity decoder_pe at 2( 1) + 0 on 220;
-  architecture formula_decoder_pe of decoder_pe at 14( 178) + 0 on 221;
-file . "Component_file.vhd" "20161015151404.000" "20161015204411.840":
-  package microprocessor_project at 1( 0) + 0 on 213;
+file . "Data_extender_9to16.vhd" "20161015160509.000" "20161016130051.659":
+  entity data_extender_9to16 at 1( 0) + 0 on 465;
+  architecture formula_de_9to16 of data_extender_9to16 at 13( 188) + 0 on 466;
+file . "Data_MUX.vhd" "20161016072617.000" "20161016130051.697":
+  entity data_mux at 1( 0) + 0 on 467;
+  architecture formula_mux of data_mux at 18( 426) + 0 on 468;
+file . "register_file.vhd" "20161015163211.000" "20161016130051.854":
+  entity reg_file at 1( 0) + 0 on 481;
+  architecture formula_rf of reg_file at 18( 451) + 0 on 482;
+file . "DataRegister.vhd" "20160320081231.000" "20161016130051.717":
+  entity dataregister at 2( 1) + 0 on 469;
+  architecture behave of dataregister at 10( 259) + 0 on 470;
+file . "Memory.vhd" "20161015151232.000" "20161016130051.807":
+  entity memory at 2( 1) + 0 on 477;
+  architecture formula_memory of memory at 16( 316) + 0 on 478;
+file . "ALU_NAND.vhd" "20161008092210.000" "20161016130051.572":
+  entity alu_nand at 1( 0) + 0 on 458;
+  architecture formula_nand of alu_nand at 11( 172) + 0 on 459;
+file . "ALU_XOR.vhd" "20161008092429.000" "20161016130051.624":
+  entity alu_xor at 1( 0) + 0 on 462;
+  architecture formula_xor of alu_xor at 11( 170) + 0 on 463;
+file . "full_adder.vhd" "20161014151741.000" "20161016130051.766":
+  entity full_adder at 1( 0) + 0 on 473;
+  architecture formula_fa of full_adder at 14( 154) + 0 on 474;

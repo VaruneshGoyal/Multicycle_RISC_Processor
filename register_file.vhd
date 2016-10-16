@@ -10,12 +10,14 @@ port( A1,A2,A3: in std_logic_vector(2 downto 0);
       D1, D2: out std_logic_vector(15 downto 0);
       write_enable,clk: in std_logic;
       pc_enable:in std_logic;
-      D3: in std_logic_vector( 15 downto 0)
+      D3: in std_logic_vector( 15 downto 0);
+      R7_data_in : in std_logic_vector(15 downto 0);
+      R7_data_out : out std_logic_vector(15 downto 0)
 );
 end Reg_File;
 architecture Formula_RF of Reg_File is
 signal decoded_addr,enable_bit: std_logic_vector(7 downto 0);
-signal R0_D,R1_D,R2_D,R3_D,R4_D,R5_D,R6_D,R7_D:std_logic_vector(15 downto 0);
+signal R0_D,R1_D,R2_D,R3_D,R4_D,R5_D,R6_D,R7_D,R7_Din_sig,R7_Dout_sig:std_logic_vector(15 downto 0);
 begin
 dut_decoder1 :decoder_pe port map(x=>A3, y=> decoded_addr);
 
@@ -37,8 +39,12 @@ dut_3 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout =>
 dut_4 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R4_D, Enable => enable_bit(4), clk => clk);
 dut_5 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R5_D, Enable => enable_bit(5), clk => clk);
 dut_6 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R6_D, Enable => enable_bit(6), clk => clk);
-dut_7 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R7_D, Enable => enable_bit(7) , clk => clk);
+dut_7 : DataRegister generic map (data_width => 16) port map (Din => R7_Din_sig, Dout => R7_Dout_sig, Enable => enable_bit(7) , clk => clk);
 
+R7_data_out<=R7_Dout_sig;
+R7_D<= R7_Dout_sig;
+
+dut_MUX_R7 :  Data_MUX generic map (control_bit_width => 1) port map(Din(0)=> D3,Din(1) =>R7_data_in,control_bits(0)=>pc_enable,Dout=>R7_Din_sig);
 
 dut_MUX1: Data_MUX generic map (control_bit_width => 3) port map(Din(0)=>R0_D,Din(1)=>R1_D,Din(2)=>R2_D,Din(3)=>R3_D,Din(4)=>R4_D,Din(5)=>R5_D,Din(6)=>R6_D,Din(7)=>R7_D, Dout=>D1,control_bits=>A1);
 

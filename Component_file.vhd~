@@ -32,7 +32,7 @@ end component;
 
 component Data_MUX is
 generic (control_bit_width:integer);
-port(Din:in Data_in( 7 downto 0);
+port(Din:in Data_in( 2**control_bit_width downto 0);
 	Dout:out std_logic_vector(15 downto 0);
 	control_bits:in std_logic_vector(control_bit_width-1 downto 0)
 );
@@ -54,7 +54,60 @@ port( A1,A2,A3: in std_logic_vector(2 downto 0);
       pc_enable:in std_logic;
       D3: in std_logic_vector( 15 downto 0)
 );
+end component;
+component ALU_adder is
+port(  
+	x,y: in std_logic_vector(16 downto 0);
+	c_in : in std_logic;
+	s: out std_logic_vector(15 downto 0);
+       	c_out: out std_logic
+ );
+end component;
 
-end component
+component ALU_XOR is
+port( X,Y: in std_logic_vector(15 downto 0);
+      Z : out std_logic_vector(15 downto 0)
+ );
+end component;
+
+component ALU_NAND is
+port( X,Y: in std_logic_vector(15 downto 0);
+      Z : out std_logic_vector(15 downto 0)
+ );
+end component;
+
+component full_adder is
+port(  
+	x,y,c_in: in std_logic;
+	s, c_out: out std_logic
+       
+ );
+end component;
+
+component sign_extender_alu is
+port( X: in std_logic_vector(15 downto 0);
+      Y: out std_logic_vector(16 downto 0)
+);
+
+end component;
+
+component zero_checker is
+port( X in std_logic_vector(15 downto 0);
+      Z:out std_logic
+      
+ );
+end component;
+
+
+component inverter is
+port( X : in std_logic_vector(16 downto 0);
+      Y : out std_logic_vector(16 downto 0)
+ );
+end component;
+
+
+
+
+
 end package;
 

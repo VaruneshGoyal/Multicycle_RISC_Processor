@@ -2,8 +2,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 
-
-
 entity sign_extender_6to16 is
 port(
 	x: in std_logic_vector(5 downto 0);
