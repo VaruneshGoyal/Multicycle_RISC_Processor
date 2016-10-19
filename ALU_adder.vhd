@@ -5,14 +5,13 @@ use work.Microprocessor_project.all;
 
 entity ALU_adder is
 port(  
-	x,y: in std_logic_vector(16 downto 0);
+	x,y: in std_logic_vector(15 downto 0);
 	c_in : in std_logic;
 	s: out std_logic_vector(15 downto 0);
        	c_out: out std_logic
  );
 end ALU_adder;
---- architechture to be edited after deliberation
---- not yet completed
+
 architecture Formula_adder of ALU_adder is
 signal c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16:std_logic;
 begin
@@ -35,8 +34,8 @@ dut12:full_adder port map(X=> x(12),Y=> y(12),c_in=>c11,s=>s(12),c_out=>c12);
 dut13:full_adder port map(X=> x(13),Y=> y(13),c_in=>c12,s=>s(13),c_out=>c13);
 dut14:full_adder port map(X=> x(14),Y=> y(14),c_in=>c13,s=>s(14),c_out=>c14);
 dut15:full_adder port map(X=> x(15),Y=> y(15),c_in=>c14,s=>s(15),c_out=>c15);
---- the function of cout yet not clear
 
-dut16:full_adder port map(X=> x(16),Y=> y(16),c_in=>c15,s=>c_out,c_out=>c16);
+c_out<= (not(c15) and(x(15)xor y(15))) or (c15 and(not(x(15)xor y(15))) );
+--if the sign bits of the inputs are different then the carry bit is flipped.Else dont. 
 
 end Formula_adder;

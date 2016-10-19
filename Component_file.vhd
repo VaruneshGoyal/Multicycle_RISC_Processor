@@ -57,7 +57,7 @@ port( A1,A2,A3: in std_logic_vector(2 downto 0);
 end component;
 component ALU_adder is
 port(  
-	x,y: in std_logic_vector(16 downto 0);
+	x,y: in std_logic_vector(15 downto 0);
 	c_in : in std_logic;
 	s: out std_logic_vector(15 downto 0);
        	c_out: out std_logic
