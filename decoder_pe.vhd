@@ -2,6 +2,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+library work;
+use work.Microprocessor_project.all;
+
 
 --- standard decoder.
 entity decoder_pe is
