@@ -29,8 +29,8 @@ enable_bit(3)<=decoded_addr(3) and write_enable;
 enable_bit(4)<=decoded_addr(4) and write_enable; 
 enable_bit(5)<=decoded_addr(5) and write_enable; 
 enable_bit(6)<=decoded_addr(6) and write_enable; 
-enable_bit(7)<=decoded_addr(7) and (write_enable or pc_enable) ; 
-
+enable_bit(7)<=(decoded_addr(7) and write_enable) or pc_enable ; 
+-- the write to pc is enable if pc_enable is set or write enable is set with address of r7.
 dut_0 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R0_D, Enable => enable_bit(0), clk => clk);
 dut_1 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R1_D, Enable => enable_bit(1), clk => clk);
 dut_2 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R2_D, Enable => enable_bit(2), clk => clk);

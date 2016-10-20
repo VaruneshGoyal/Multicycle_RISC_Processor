@@ -92,7 +92,7 @@ port( X: in std_logic_vector(15 downto 0);
 end component;
 
 component zero_checker is
-port( X in std_logic_vector(15 downto 0);
+port( X :in std_logic_vector(15 downto 0);
       Z:out std_logic
       
  );

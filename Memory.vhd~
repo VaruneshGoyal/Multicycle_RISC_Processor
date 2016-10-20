@@ -22,10 +22,10 @@ begin
  process(clk)
     begin
         
-                Dout <= Data(to_integer(unsigned(Address)));
+                Dout <= Data(to_integer(unsigned(Addr)));
         if falling_edge(clk) then
                 if (write_enable = '1') then
-                    Data(to_integer(unsigned(Address))) <= Din  ;
+                    Data(to_integer(unsigned(Addr))) <= Din  ;
                 end if;
         end if;
     end process;

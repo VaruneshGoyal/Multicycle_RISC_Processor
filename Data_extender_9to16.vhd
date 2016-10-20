@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 
-
+-- just adds 7 0's behind the diven 9 bits to give 16 bit output'
 entity data_extender_9to16 is
 port(
 	x: in std_logic_vector(8 downto 0);

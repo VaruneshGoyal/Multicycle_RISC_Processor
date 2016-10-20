@@ -2,7 +2,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-
+--- Priority encoder.gives highest priority to LSB.
 entity priority_encoder is
 port(  
 	x: in std_logic_vector(7 downto 0);

@@ -4,7 +4,7 @@ USE ieee.numeric_std.ALL;
 library work;
 use work.Microprocessor_project.all;
 
---type Data_in is array (7 downto 0) of std_logic_vector(15 downto 0);
+-- helps choose from 2^n inputs ( 16 bit vector) using n control bits
 
 entity Data_MUX is
 generic (control_bit_width:integer);
