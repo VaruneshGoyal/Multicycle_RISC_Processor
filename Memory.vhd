@@ -8,7 +8,7 @@ use work.Microprocessor_project.all;
 entity Memory is
 port ( Din: in std_logic_vector(15 downto 0);
 	Dout: out std_logic_vector(15 downto 0);
-	write_enable,clk: in std_logic;
+	write_enable,read_enable,clk: in std_logic;
 	Addr: in std_logic_vector(15 downto 0)
 );
 end Memory;
@@ -22,11 +22,15 @@ begin
  process(clk)
     begin
         
-                Dout <= Data(to_integer(unsigned(Addr)));
+               --Dout <= Data(to_integer(unsigned(Addr)));
         if falling_edge(clk) then
                 if (write_enable = '1') then
                     Data(to_integer(unsigned(Addr))) <= Din  ;
                 end if;
+		if (read_enable = '1') then
+                   Dout<= Data(to_integer(unsigned(Addr)))   ;
+                end if;
+
         end if;
     end process;
 

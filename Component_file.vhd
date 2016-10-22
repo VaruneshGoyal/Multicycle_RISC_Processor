@@ -51,7 +51,7 @@ end component;
 component Memory is
 port ( Din: in std_logic_vector(15 downto 0);
 	Dout: out std_logic_vector(15 downto 0);
-	write_enable,clk: in std_logic;
+	write_enable,read_enable,clk: in std_logic;
 	Addr: in std_logic_vector(15 downto 0)
 );
 end component;
@@ -67,6 +67,17 @@ port( A1,A2,A3: in std_logic_vector(2 downto 0);
       R7_data_out : out std_logic_vector(15 downto 0)
 );
 end component;
+
+component ALU is
+port( X,Y: in std_logic_vector(15 downto 0);
+      Z : out std_logic_vector(15 downto 0);
+      carry_flag,zero_flag :out std_logic;
+      Control_bits: in std_logic_vector(1 downto 0)
+      
+ );
+end component;
+
+
 component ALU_adder is
 port(  
 	x,y: in std_logic_vector(15 downto 0);
@@ -97,8 +108,6 @@ port(
 end component;
 
 
-
-end component;
 
 component zero_checker is
 port( X :in std_logic_vector(15 downto 0);
@@ -149,7 +158,7 @@ end component;
 --sign extender 6 to 16
 component sign_extender_9to16 is
 port(
-	x: in std_logic_vector(9 downto 0);
+	x: in std_logic_vector(8 downto 0);
 	y: out std_logic_vector( 15 downto 0)
 );
 end component;

@@ -42,7 +42,7 @@ use ieee.std_logic_1164.all;
 
 entity sign_extender_9to16 is
 port(
-	x: in std_logic_vector(9 downto 0);
+	x: in std_logic_vector(8 downto 0);
 	y : out std_logic_vector( 15 downto 0)
 );
 end sign_extender_9to16;
