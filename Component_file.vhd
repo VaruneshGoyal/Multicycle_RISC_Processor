@@ -16,6 +16,15 @@ port(
  );
 end component;
 
+component encode_modifier is
+port( encode_bits : in std_logic_vector(2 downto 0);
+      priority_bits_in : in std_logic_vector(7 downto 0);
+      priority_bits_out	: out std_logic_vector( 7 downto 0)
+	);
+
+end component;
+
+
 component decoder_pe is
 port(  x: in std_logic_vector(2 downto 0);
 	y: out std_logic_vector(7 downto 0)
@@ -87,10 +96,7 @@ port(
  );
 end component;
 
-component sign_extender_alu is
-port( X: in std_logic_vector(15 downto 0);
-      Y: out std_logic_vector(16 downto 0)
-);
+
 
 end component;
 
@@ -125,7 +131,28 @@ port(Din:in Data_in_3( (2**control_bit_width)-1 downto 0);
 );
 end component;
 
+--data extender
+component data_extender_9to16 is
+port(
+	x: in std_logic_vector(8 downto 0);
+	y: out std_logic_vector( 15 downto 0)
+);
+end component;
 
+--sign extender 6 to 16
+component sign_extender_6to16 is
+port(
+	x: in std_logic_vector(5 downto 0);
+	y: out std_logic_vector( 15 downto 0)
+);
+end component;
+--sign extender 6 to 16
+component sign_extender_9to16 is
+port(
+	x: in std_logic_vector(9 downto 0);
+	y: out std_logic_vector( 15 downto 0)
+);
+end component;
 
 
 
