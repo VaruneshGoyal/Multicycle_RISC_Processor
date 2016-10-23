@@ -8,6 +8,8 @@ package Microprocessor_project is
 type Data_in is array (natural range <>) of std_logic_vector(15 downto 0);
 type Data_in_3 is array (natural range <>) of std_logic_vector(2 downto 0);
 type Data_in_8 is array (natural range <>) of std_logic_vector(7 downto 0);
+--type FsmState is ( instruction_fetch, S2, S3, S4, S40, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14);
+
 component priority_encoder is
 port(  
 	x: in std_logic_vector(7 downto 0);
@@ -161,6 +163,36 @@ port(
 	x: in std_logic_vector(8 downto 0);
 	y: out std_logic_vector( 15 downto 0)
 );
+end component;
+
+component S1_decoder is
+port( i0, i1, i2, i3: in std_logic;
+      S1_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
+component S2_decoder is
+port( i0, i2, i3, p0, p1, z, c: in std_logic;
+      S2_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
+component S3_decoder is
+port( i0, i2, i3, z: in std_logic;
+      S3_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
+component S6_decoder is
+port( i1, z_Rpe: in std_logic;
+      S6_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
+component S12_decoder is
+port( z_Rpe: in std_logic;
+      S12_decoder_out : out std_logic_vector(3 downto 0)
+ );
 end component;
 
 
