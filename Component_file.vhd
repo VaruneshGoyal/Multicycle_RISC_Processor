@@ -205,6 +205,13 @@ port( z_Rpe: in std_logic;
  );
 end component;
 
+component ALUnFLAG_decoder is
+port( IR15, IR14, IR13: in std_logic;
+      ALU_decoder_out : out std_logic_vector(1 downto 0);
+      carry_decoder_out, zero_decoder_out : out std_logic
+ );
+end component;
+
 
 
 end package;
