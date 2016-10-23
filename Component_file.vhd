@@ -224,6 +224,82 @@ port( IR15, IR14, IR13, IR12: in std_logic;
  );
 end component;
 
+component Data_path is 
+
+port (clk:in std_logic;
+	reset:in std_logic;
+	RF_write_en,RF_pc_en:in std_logic;
+	t1_mux_cntrl0, t1_mux_cntrl1:in std_logic;
+	t2_mux_cntrl:in std_logic;
+	IR_en: in std_logic;
+	pc_mux_cntrl:in std_logic;
+	t1_en:in std_logic;
+	t2_en:in std_logic;
+	A1_RF_mux_cntrl0, A1_RF_mux_cntrl1:in std_logic;
+	A3_RF_mux_cntrl: in std_logic;
+	D3_RF_mux_cntrl0, D3_RF_mux_cntrl1:in  std_logic;
+	pe_mux_cntrl : in std_logic;
+	rpe_en :in std_logic;
+	alu_mux_upper_cntrl0,alu_mux_upper_cntrl1:in std_logic;
+	alu_mux_lower_cntrl0,alu_mux_lower_cntrl1:in std_logic;
+	carry_reg_en:in std_logic;
+	zero_reg_en:in std_logic;
+	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
+	t3_en:in std_logic;
+	mem_addr_mux_cntrl:in std_logic;
+	mem_read_en,mem_write_en:in std_logic;
+	z_mux_cntrl: in std_logic;
+	Alu_signal_mux_ctrl :in std_logic;
+	--carry_reg_out: out std_logic;
+	--zero_reg_out: out std_logic;
+	instr_reg_out :out std_logic_vector(15 downto 0);
+	--pe_zero_flag :out std_logic;
+	S1_decoder_output :out std_logic_vector(3 downto 0);
+	S2_decoder_output :out std_logic_vector(3 downto 0);
+	S3_decoder_output :out std_logic_vector(3 downto 0);
+	S6_decoder_output :out std_logic_vector(3 downto 0);
+	S12_decoder_output :out std_logic_vector(3 downto 0)
+);
+
+end component;
+
+--- Control Path
+
+
+component IITB_RISC_Controlpath is
+	port (
+		-- carry_flag, zero_flag: in std_logic; not needed anymore as being handled by decoders after states
+		carry_en, zero_en: out std_logic;
+	
+		
+		mem_read_en, mem_write_en, mem_address_mux_ctrl: out std_logic;		
+		IR_en: out std_logic;							
+		Rpe_mux_ctrl: out std_logic; -- rpe_mux_cntrl
+		D3_mux_ctrl: out std_logic_vector(1 downto 0);
+		A1_mux_ctrl: out std_logic_vector(1 downto 0);
+		A3_mux_ctrl: out std_logic;
+		R7_mux_ctrl: out std_logic; -- pc_muc cntrl
+		RegFile_write, PC_write: out std_logic;
+		T1_mux_ctrl: out std_logic_vector(1 downto 0);	
+		T1_en: out std_logic;
+		T2_mux_ctrl: out std_logic;
+		T2_en: out std_logic;
+		Rpe_en: out std_logic;
+		Z_mux_ctrl: out std_logic;
+		Alu_uppermux_ctrl: out std_logic_vector(1 downto 0);
+		Alu_lowermux_ctrl: out std_logic_vector(1 downto 0);
+		Alu_signal_mux_ctrl: out std_logic;
+		--Alu_decoder_signal: out std_logic_vector(1 downto 0);
+		T3_mux_ctrl: out std_logic_vector(1 downto 0);
+		T3_en: out std_logic;
+		clk, reset: in std_logic;
+		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
+		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0)
+		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
+		--Carry_Decoder, zero_Decoder: in std_logic
+	     );
+end component;
+
 
 
 end package;

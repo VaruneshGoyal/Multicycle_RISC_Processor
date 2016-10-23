@@ -7,8 +7,6 @@ entity IITB_RISC_Controlpath is
 	port (
 		-- carry_flag, zero_flag: in std_logic; not needed anymore as being handled by decoders after states
 		carry_en, zero_en: out std_logic;
-		zero_mux_ctrl: out std_logic;
-		--Rpe_zero_checker: in std_logic;
 		mem_read_en, mem_write_en, mem_address_mux_ctrl: out std_logic;		
 		IR_en: out std_logic;							
 		Rpe_mux_ctrl: out std_logic; -- rpe_mux_cntrl
@@ -31,7 +29,7 @@ entity IITB_RISC_Controlpath is
 		T3_en: out std_logic;
 		clk, reset: in std_logic;
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
-		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0)
+		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0);
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
@@ -63,7 +61,7 @@ begin
    process(fsm_state, clk, reset)
       variable next_state : std_logic_vector(3 downto 0);
       variable vcarry_en, vzero_en: std_logic;
-      variable vzero_mux_ctrl: std_logic;
+      
       variable vmem_read_en, vmem_write_en, vmem_address_mux_ctrl: std_logic;		
       variable vIR_en: std_logic;							
       variable vRpe_mux_ctrl: std_logic;
@@ -88,7 +86,7 @@ begin
        -- defaults
        next_state:= reset_state;
        vcarry_en := '0'; vzero_en := '0'  ;
-       vzero_mux_ctrl := '0';
+       
        vmem_read_en:= '0'; vmem_write_en:= '0'; vmem_address_mux_ctrl:= '0';		
        vIR_en := '0';							
        vRpe_mux_ctrl := '0';
@@ -158,7 +156,7 @@ begin
 		vT3_en:= '1';
 		--vt3_mux_ctrl:= "00";
 		vZ_mux_ctrl:= '1'; --new inclusion !!
-		vzero_mux_ctrl := '1';
+		
 		--vcarry_en := '0';  --for the LW instruction only is this state used
 		vzero_en := '1';
 		next_state := S4;
@@ -270,7 +268,7 @@ begin
      end case;
 
        carry_en <= vcarry_en; zero_en <= vzero_en;
-       zero_mux_ctrl <= vzero_mux_ctrl;
+       
        mem_read_en <= vmem_read_en; mem_write_en <= vmem_write_en; mem_address_mux_ctrl <= vmem_address_mux_ctrl;		
        IR_en <= vIR_en;							
        Rpe_mux_ctrl <= vRpe_mux_ctrl;
