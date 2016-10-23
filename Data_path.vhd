@@ -175,7 +175,7 @@ dut_A1_RF_mux : Data_MUX_3 generic map(control_bit_width=>2)
 --A3_RF mux
 	
 dut_A3_RF_mux : Data_MUX_3 generic map(control_bit_width=>1) 
-			   port map(Din(0) => instr_sig(11 downto 9), Din(1) => pe_output,
+			   port map(Din(0) =>pe_output, Din(1) => instr_sig(11 downto 9) ,
 			   Dout=>A3_RF,
 			   control_bits(0)=>A3_RF_mux_cntrl);
 
@@ -197,10 +197,10 @@ dut_sign_ext9_16: sign_extender_9to16 port map(x=>instr_sig(8 downto 0),y=>sign_
 
 --priority encoder mux
 dut_pe_mux:  Data_MUX_8 generic map (control_bit_width=>1)
-			port map (Din(0) =>instr_sig(7 downto 0), Din(1) => pe_modifier_output,
+			port map (Din(0) =>pe_modifier_output, Din(1) => instr_sig(7 downto 0),
 			Dout => pe_mux_output,
 			control_bits(0) => pe_mux_cntrl);
---priority enocoder mux
+--priority enocoder reg
 dut_pe_reg :DataRegister generic map (data_width => 8)
 			 port map (Din => pe_mux_output,
 	      		 Dout => rpe_output,
@@ -229,13 +229,13 @@ dut_rf :Reg_File port map( A1=>A1_RF, A2=>A2_RF, A3=>A3_RF, R7_data_out=>pc_data
 
 --Data mux for t1
 dut_mux_t1: Data_MUX    generic map(control_bit_width=>2)
-			port map(Din(0)=> mem_data_output,Din(1) =>D1_RF,Din(2) =>sign_ext_6t016_output,Din(3) =>unused_port,
+			port map(Din(0)=> D1_RF,Din(1) =>sign_ext_6t016_output,Din(2) =>mem_data_output,Din(3) =>unused_port,
 			Dout=>t1_mux_output,
 			control_bits(0)=>t1_mux_cntrl0,control_bits(1)=>t1_mux_cntrl1);
 
 --Data mux for t2
 dut_mux_t2: Data_MUX    generic map(control_bit_width=>1) 
-			port map(Din(0) => D2_RF, Din(1) => sign_ext_9t016_output, 
+			port map(Din(0) => sign_ext_9t016_output, Din(1) => D2_RF, 
 			Dout=> t2_mux_output,
 			control_bits(0)=>t2_mux_cntrl);
 
@@ -253,14 +253,14 @@ dut_t2_reg : DataRegister generic map (data_width=>16)
 
 --Alu_mUX_Upper
 dut_alu_mux_upper : Data_MUX    generic map(control_bit_width=>2)
-				port map(Din(0)=> t3_output,Din(1)=>pc_data_out,Din(2)=>t1_output,Din(3)=>unused_port,
+				port map(Din(0)=> pc_data_out,Din(1)=>t1_output,Din(2)=>t3_output,Din(3)=>unused_port,
 				Dout=> alu_mux_upper_out,
 				control_bits(0)=>alu_mux_upper_cntrl0,control_bits(1)=>alu_mux_upper_cntrl1);
 
 
 --Alu_MUX_lower
 dut_alu_mux_lower : Data_MUX    generic map(control_bit_width=>2)
-				port map(Din(0)=>t2_output,Din(1)=>sign_ext_6t016_output,Din(2)=>const_sig_1,Din(3)=>unused_port,
+				port map(Din(0)=>const_sig_1,Din(1)=>sign_ext_6t016_output,Din(2)=>t2_output,Din(3)=>unused_port,
 				Dout=> alu_mux_lower_out,
 				control_bits(0)=>alu_mux_lower_cntrl0,control_bits(1)=>alu_mux_lower_cntrl1);
 

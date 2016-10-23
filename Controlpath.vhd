@@ -10,16 +10,17 @@ entity IITB_RISC_Controlpath is
 		Rpe_zero_checker: in std_logic;
 		mem_read_en, mem_write_en, mem_address_mux_ctrl: out std_logic;		
 		IR_en: out std_logic;							
-		Rpe_mux_ctrl: out std_logic;
+		Rpe_mux_ctrl: out std_logic; -- rpe_mux_cntrl
 		D3_mux_ctrl: out std_logic_vector(1 downto 0);
 		A1_mux_ctrl: out std_logic_vector(1 downto 0);
 		A3_mux_ctrl: out std_logic;
-		R7_mux_ctrl: out std_logic;
+		R7_mux_ctrl: out std_logic; -- pc_muc cntrl
 		RegFile_write, PC_write: out std_logic;
 		T1_mux_ctrl: out std_logic_vector(1 downto 0);	
 		T1_en: out std_logic;
 		T2_mux_ctrl: out std_logic;
 		T2_en: out std_logic;
+		Rpe_en: out std_logic;
 		Alu_uppermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_lowermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_signal_mux_ctrl: out std_logic;
@@ -74,7 +75,8 @@ begin
       variable vALU_ctrl: std_logic_vector(1 downto 0);
       variable vT3_mux_ctrl: std_logic_vector(1 downto 0);
       variable vT3_en: std_logic;
-
+      variable vRpe_en: std_logic;
+--	variable Rpe_en :std_logic; --left out 
    begin
        -- defaults
        next_state:= instruction_fetch;
@@ -107,17 +109,20 @@ begin
 
           when S2 => 				--1, 3, 9
 		vA1_mux_ctrl(0) := Inst(14);
+-- in this state vA1_mux_ctrl(1) := '0';
 		vR7_mux_ctrl := '1';
-		vPC_write := '0';
+		vPC_write := '1'; --- bit reversed !!
 		vT1_mux_ctrl(0) := Inst(12) or (Inst(14) and (not Inst(15)));
 		vT1_en:= '1';
 		vT2_mux_ctrl := '1';
 		vT2_en := '1';
 		next_state := S2_decoder;
-
+--- alu_upper_mux_cntrl := "00";
+--- alu_lower_mux_cntrl := "00";
 	  when S3 =>				--1, 4, 6, 7
 		vA1_mux_ctrl := "01";
 		vT1_en := '1';
+-- t1_mux_cntrl :="00";
 		valu_uppermux_ctrl := "01";
 		vT3_mux_ctrl:= "01";
 		vT3_en:= '1';
@@ -128,72 +133,101 @@ begin
 		vD3_mux_ctrl:= "01";
 		vA3_mux_ctrl:= '1';
 		vRegFile_write := '1';
-		vT3_en:= '1';
+		vT3_en:= '0'; -- check . Reversed!! 
 		next_state := instruction_fetch;
 
 	  when S40 => 				--4
 		vmem_read_en := '1';
+		-- vmem_addr_mux_ctrl :='0';
 		vT3_en:= '1';
+		--vt3_mux_ctrl:= "00";
 		next_state := S4;
 
 	  when S5 =>				--1
 		vA3_mux_ctrl:= '1';
+-- D3_mux_cntrl :="00";
 		vR7_mux_ctrl:= '1';
+-- Alu_lower_mux := "00";
+--Alu_upper_mux := "00";
 		vRegFile_write := '1';
-		vPC_write := '0';
+		vPC_write := '1';  -- bit reversed !!
 		next_state := instruction_fetch;
 
           when S6 =>				--1, 7, 14
-	       vcarry_en := '0'; vzero_en := '0'  ;
+	      --- vcarry_en := '0'; vzero_en := '0'  ;
 	       vmem_write_en:= '1';
 	       vAlu_uppermux_ctrl:= "10";
+	       vT3_en:='1'; -- new inclusion !!!
+	       vT3_mux_ctrl:= "01"; -- new inclusion !!!
+--vAlu_lowermux_ctrl:= "00";
+-- Mem_addr_mux_cntrl :='0';
+-- Rpe_mux_cntrl :='0';
+		vRpe_en :='1'; -- new inclusion !!!  
 		next_state := S6_decoder;
 
 	  when S7 =>				--1
 	       vR7_mux_ctrl := '1';
 	       vPC_write := '1';
-	       vAlu_lowermux_ctrl(0):= Inst(13);
+	       vAlu_lowermux_ctrl(0):=not( Inst(13)); -- bit reversed !!
+		vAlu_lowermux_ctrl(1):= '0';
+	   --vAlu_uppermux_ctrl :="00";
 		next_state := instruction_fetch;
 
 	  when S8 =>				--9
 	       vT2_en:= '1';
+		-- t2_mux_cntrl := "00";
+		--vAlu_uppermux_ctrl: ="00";
+		--vAlu_lowermux_ctrl: ="00";
+
 	       vT3_mux_ctrl:= "01";
 	       vT3_en:= '1';
 		next_state := S9;
 
 	  when S9 =>				--1
 	       vD3_mux_ctrl := "01";
-	       vR7_mux_ctrl := Inst(12);
+		vA3_mux_ctrl:='1' ; -- new inclusion !!
+	       vR7_mux_ctrl := not(Inst(12)); -- bit reversed !!
 	       vRegFile_write := '1';
 	       vPC_write := '1';
 		valu_lowermux_ctrl := "10";
+		--valu_uppermux_ctrl := "00";
 		next_state := instruction_fetch;
 
-	  when S10 =>				--11						
+	  when S10 => 				--11						
 	       vRpe_mux_ctrl := '1';
+		vRpe_en :='1'; -- new inclusion !!
 	       vA1_mux_ctrl := "01";
+	       vt3_mux_ctrl :="10"; -- new inclusion !!
 	       vR7_mux_ctrl := '1';
 	       vPC_write := '1';
-	       vAlu_lowermux_ctrl:= "10";
+		--vAlu_uppermux_ctrl:= "00";
+	       vAlu_lowermux_ctrl:= "00"; -- MSB reversed !!
 	       vT3_en:= '1';
 		next_state := S11;
 
 	  when S11 =>				--12
-	       vmem_read_en:= '1';	
+	       vmem_read_en:= '1';
+		-- vmem_write_en :='0';	
 	       vT1_mux_ctrl := "10";	
 	       vT1_en:= '1';
+		--vmem_addr_mux_ctlr :='0';
 		next_state := S12;
 
 	  when S12 =>				--1, 11
 	       vD3_mux_ctrl := "10";
+		--vA3_mux_ctrl :='0';
 	       vRegFile_write := '1';
 	       vAlu_uppermux_ctrl:= "10";
+		--vAlu_lowermux_ctrl:= "00";
 	       vT3_mux_ctrl:= "01";
 	       vT3_en:= '1';
+		vRpe_en := '1'; -- new inclusion !!
+		--Rpe_mux_ctrl :='0';
 		next_state := S12_decoder;
 
 	  when S13 =>				--14							
 	       vRpe_mux_ctrl := '1';
+		vRpe_en := '1'; -- new inclusion !!
 	       vA1_mux_ctrl := "01";
 	       vT3_mux_ctrl:= "10";
 	       vT3_en:= '1';
@@ -202,6 +236,7 @@ begin
 	  when S14 =>				--6
 	       vA1_mux_ctrl := "10";	
 	       vT1_en:= '1';
+		-- vt1_mux_ctrl := "00";
 		next_state := S6;
 	
 	  when others =>
@@ -225,11 +260,14 @@ begin
        T2_en <= vT2_en;
        Alu_uppermux_ctrl <= vAlu_uppermux_ctrl;
        Alu_lowermux_ctrl <= vAlu_lowermux_ctrl;
-       Alu_signal_mux_ctrl <= vAlu_lowermux_ctrl(1);		--because whenever add is needed explicitly, we also need +1 as lowermux output.
+       --Alu_signal_mux_ctrl <= vAlu_lowermux_ctrl(1);		--because whenever add is needed explicitly, we also need +1 as lowermux output.
+	Alu_signal_mux_ctrl <=(not vAlu_lowermux_ctrl(0)) and (not vAlu_lowermux_ctrl(1));
+	--new inclusion !! verify again.
        ALU_ctrl <= vALU_ctrl;
        T3_mux_ctrl <= vT3_mux_ctrl;
        T3_en <= vT3_en;
-  
+       Rpe_en <= vRpe_en;
+
      if(clk'event and (clk = '1')) then
 	if(reset = '1') then
              fsm_state <= instruction_fetch;
