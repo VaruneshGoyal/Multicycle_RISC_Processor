@@ -4,7 +4,7 @@ library work;
 use work.Microprocessor_project.all;
 
 entity S2_decoder is
-port( i0, i2, i3, p0, p1, z, c: in std_logic;
+port( i0, i2, i3, p0, p1, z, c: in std_logic; --- decision  bits   --z and c from reg
       S2_decoder_out : out std_logic_vector(3 downto 0)
  );
 end S2_decoder;

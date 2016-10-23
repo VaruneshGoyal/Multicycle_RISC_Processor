@@ -14,11 +14,7 @@ end ALUnFLAG_decoder;
 architecture combinational of ALUnFLAG_decoder is
 	--signal state : std_logic_vector(3 downto 0);
 begin
-        -- : ADD, ADC, ADZ, ADI, NDU, NDC, NDZ, LW, SW, BEQ, JLR
-	--S5 : LHI
-	--S8 : JAL
-	--S10 : LM
-	--S13 : SM
+       
 	ALU_decoder_out(0) <= IR15 and IR14;
 	ALU_decoder_out(1) <= IR13;
 	carry_decoder_out <= not( IR15 or IR14 or IR13);

@@ -8,6 +8,7 @@ use work.Microprocessor_project.all;
 entity Data_path is 
 
 port (clk:in std_logic;
+	reset:in std_logic;
 	RF_write_en,RF_pc_en:in std_logic;
 	t1_mux_cntrl0, t1_mux_cntrl1:in std_logic;
 	t2_mux_cntrl:in std_logic;
@@ -30,12 +31,18 @@ port (clk:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
 	mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
-
-	carry_reg_out: out std_logic;
-	zero_reg_out: out std_logic;
+	
+	--carry_reg_out: out std_logic;
+	--zero_reg_out: out std_logic;
 	instr_reg_out :out std_logic_vector(15 downto 0);
-	pe_zero_flag :out std_logic
+	pe_zero_flag :out std_logic;
+	S1_decoder_output :out std_logic_vector(3 downto 0);
+	S2_decoder_output :out std_logic_vector(3 downto 0);
+	S3_decoder_output :out std_logic_vector(3 downto 0);
+	S6_decoder_output :out std_logic_vector(3 downto 0);
+	S12_decoder_output :out std_logic_vector(3 downto 0)
 );
+
 
 
 end Data_path;
@@ -161,7 +168,7 @@ begin
 dut_instr_reg: DataRegister    generic map(data_width=>16)
 			       port map (Din=> mem_data_output,
 		      	       Dout=> instr_sig,
-		      	       clk=>clk, enable=>IR_en);
+		      	       clk=>clk, enable=>IR_en,reset=>reset);
 
 --pc mux
 	
@@ -209,7 +216,7 @@ dut_pe_mux:  Data_MUX_8 generic map (control_bit_width=>1)
 dut_pe_reg :DataRegister generic map (data_width => 8)
 			 port map (Din => pe_mux_output,
 	      		 Dout => rpe_output,
-	     		 clk=>clk, enable=> rpe_en);
+	     		 clk=>clk, enable=> rpe_en,reset=>reset);
 -- priority zero checker
 	-- as component is defined only for 16 bits. WE set 1st 8 bits as 0.
 dut_pe_zero_check: zero_checker port map ( X(15 downto 8)=> const_sig_0,X(7 downto 0) => rpe_output,
@@ -248,13 +255,13 @@ dut_mux_t2: Data_MUX    generic map(control_bit_width=>1)
 dut_t1_reg : DataRegister generic map (data_width=>16)
 			  port map (Din => t1_mux_output,
 	      		  Dout => t1_output,
-	     		  clk=>clk, enable=>t1_en);
+	     		  clk=>clk, enable=>t1_en,reset=>reset);
 
 --T2 register
 dut_t2_reg : DataRegister generic map (data_width=>16)
 			  port map (Din => t2_mux_output,
 	      		  Dout => t2_output,
-	     		  clk=>clk, enable=>t2_en);
+	     		  clk=>clk, enable=>t2_en,reset=>reset);
 
 --Alu_mUX_Upper
 dut_alu_mux_upper : Data_MUX    generic map(control_bit_width=>2)
@@ -280,13 +287,13 @@ dut_alu : ALU port map( X=> alu_mux_upper_out,Y=>alu_mux_lower_out,
 dut_carry_reg : DataRegister    generic map (data_width=>1)
 			  	port map (Din(0) => alu_carry_flag,
 	      		  	Dout(0) => carry_reg_out_sig,
-	     		  	clk=>clk, enable=>carry_reg_en);
+	     		  	clk=>clk, enable=>carry_reg_en,reset=>reset);
 
 --zero reg
 dut_zero_reg : DataRegister generic map (data_width=>1)
 			    port map (Din(0) => zero_flag_mux_output,
 	      		    Dout(0) => zero_reg_out_sig,
-	     		    clk=>clk, enable=>zero_reg_en);
+	     		    clk=>clk, enable=>zero_reg_en,reset=>reset);
 
 --t3_MUX
 dut_mux_t3: Data_MUX    generic map(control_bit_width=>2) 
@@ -299,7 +306,7 @@ dut_mux_t3: Data_MUX    generic map(control_bit_width=>2)
 dut_t3_reg : DataRegister generic map (data_width=>16)
 			  port map (Din =>t3_mux_output ,
 	      		  Dout => t3_output ,
-	     		  clk=>clk, enable=>t3_en);
+	     		  clk=>clk, enable=>t3_en,reset=>reset);
 
 --Memory address MuX
 dut_mux_mem_addr: Data_MUX      generic map(control_bit_width=>1) 
@@ -314,10 +321,7 @@ dut_memory :Memory port map (Din=> t1_output,
 			clk=>clk,
 			Addr=>  mem_addr_mux_output);
 
-carry_reg_out<=carry_reg_out_sig;
-zero_reg_out<=zero_reg_out_sig;
-instr_reg_out<=instr_sig;
-pe_zero_flag <=pe_zero_checker_output;
+
 
 --zero checker for z flag
 dut_zerochecker_z: zero_checker port map ( X=>mem_data_output,
@@ -329,6 +333,38 @@ dut_zero_flag_mux: Data_MUX_1
 		port map (Din(0)(0)=>alu_zero_flag,Din(1)(0)=>zerochecker_z_out,
 		Dout(0)=>zero_flag_mux_output,
 		control_bits(0)=>z_mux_cntrl);
+-- S1 decoder
+
+dutS1_decoder :S1_decoder port map( i0=>Instr_sig(12), i1=>Instr_sig(13), i2=>Instr_sig(14), i3=> Instr_sig(15),
+      S1_decoder_out => S1_decoder_output );
+
+-- s2 decoder
+dutS2_decoder :S2_decoder port map( i0=>Instr_sig(12),  i2=>Instr_sig(14),i3=> Instr_sig(15), p0=>Instr_sig(0), p1=>Instr_sig(1), z =>zero_reg_out_sig, c =>carry_reg_out_sig,
+      S2_decoder_out => S2_decoder_output );
+
+
+-- s3 decoder
+
+dutS3_decoder:S3_decoder port map ( i0=>Instr_sig(12),  i2=>Instr_sig(14),i3=> Instr_sig(15),  z =>alu_zero_flag,
+      S3_decoder_out =>S3_decoder_output );
+
+
+--- s6 decoder
+
+dutS6_decoder:S6_decoder port map( i1=>Instr_sig(13), z_Rpe=>zerochecker_z_out,
+      S6_decoder_out=>S6_decoder_output  );
+
+-- s12 decoder
+
+dutS12_decoder:S12_decoder port map( z_Rpe => zerochecker_z_out,
+      S12_decoder_out => S12_decoder_output );
+
+
+
+--carry_reg_out<=carry_reg_out_sig;
+--zero_reg_out<=zero_reg_out_sig;
+instr_reg_out<=instr_sig;
+pe_zero_flag <=pe_zero_checker_output;
 
 
 end Formula_Data_Path;

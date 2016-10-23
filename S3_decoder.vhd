@@ -4,7 +4,7 @@ library work;
 use work.Microprocessor_project.all;
 
 entity S3_decoder is
-port( i0, i2, i3, z: in std_logic;
+port( i0, i2, i3, z: in std_logic;				--z from alu (not reg)
       S3_decoder_out : out std_logic_vector(3 downto 0)
  );
 end S3_decoder;

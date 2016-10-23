@@ -39,8 +39,8 @@ end component;
 component DataRegister is
 	generic (data_width:integer);
 	port (Din: in std_logic_vector(data_width-1 downto 0);
-	      Dout: out std_logic_vector(data_width-1 downto 0) := (others => '0');
-	      clk, enable: in std_logic);
+	      Dout: out std_logic_vector(data_width-1 downto 0);
+	      clk, enable,reset: in std_logic);
 end component;
 
 component Data_MUX is
