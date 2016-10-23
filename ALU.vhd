@@ -23,6 +23,9 @@ signal unused_port_sig: std_logic_vector(15 downto 0);
 begin
 unused_port_sig <= "ZZZZZZZZZZZZZZZZ";
 --- unused port is used as the Data_MUX has two control bits but only 3 instructions ( ADD, XOR,NAND) . The fourth input is then made 'Z'.
+--ADD : 00
+--XOR : 01
+--NAND: 10
 
 
 dut_add: ALU_adder port map(X=>X , Y=>Y , s=>add_out,c_in =>'0',c_out => carry);

@@ -29,7 +29,8 @@ port (clk:in std_logic;
 	t3_en:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
 	mem_read_en,mem_write_en:in std_logic;
-	
+	z_mux_cntrl: in std_logic;
+
 	carry_reg_out: out std_logic;
 	zero_reg_out: out std_logic;
 	instr_reg_out :out std_logic_vector(15 downto 0);
@@ -147,6 +148,10 @@ signal mem_data_output:std_logic_vector(15 downto 0);
 -- pe zerochecker signal
 constant const_sig_0:std_logic_vector(7 downto 0):= "00000000";
 signal pe_zero_checker_output:std_logic;
+--zero checker of z flag signals
+signal zerochecker_z_out: std_logic;
+--zero flag mux signal
+signal zero_flag_mux_output: std_logic;
 
 begin
 
@@ -279,7 +284,7 @@ dut_carry_reg : DataRegister    generic map (data_width=>1)
 
 --zero reg
 dut_zero_reg : DataRegister generic map (data_width=>1)
-			    port map (Din(0) => alu_zero_flag,
+			    port map (Din(0) => zero_flag_mux_output,
 	      		    Dout(0) => zero_reg_out_sig,
 	     		    clk=>clk, enable=>zero_reg_en);
 
@@ -313,6 +318,18 @@ carry_reg_out<=carry_reg_out_sig;
 zero_reg_out<=zero_reg_out_sig;
 instr_reg_out<=instr_sig;
 pe_zero_flag <=pe_zero_checker_output;
+
+--zero checker for z flag
+dut_zerochecker_z: zero_checker port map ( X=>mem_data_output,
+     					 Z =>zerochecker_z_out);
+
+--zero_flag_mux
+dut_zero_flag_mux: Data_MUX_1
+		generic map(control_bit_width=>1)
+		port map (Din(0)(0)=>alu_zero_flag,Din(1)(0)=>zerochecker_z_out,
+		Dout(0)=>zero_flag_mux_output,
+		control_bits(0)=>z_mux_cntrl);
+
 
 end Formula_Data_Path;
 

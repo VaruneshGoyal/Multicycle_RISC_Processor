@@ -21,6 +21,7 @@ entity IITB_RISC_Controlpath is
 		T2_mux_ctrl: out std_logic;
 		T2_en: out std_logic;
 		Rpe_en: out std_logic;
+		Z_mux_ctrl: out std_logic;
 		Alu_uppermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_lowermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_signal_mux_ctrl: out std_logic;
@@ -76,7 +77,7 @@ begin
       variable vT3_mux_ctrl: std_logic_vector(1 downto 0);
       variable vT3_en: std_logic;
       variable vRpe_en: std_logic;
---	variable Rpe_en :std_logic; --left out 
+      variable vZ_mux_ctrl: std_logic; 
    begin
        -- defaults
        next_state:= instruction_fetch;
@@ -99,6 +100,7 @@ begin
        vALU_ctrl:= "00";
        vT3_mux_ctrl:= "00";
        vT3_en:= '0';
+       vZ_mux_ctrl:= '0';
 
        case fsm_state is 
           when instruction_fetch =>		--2, 5, 8, 10, 13
@@ -141,6 +143,7 @@ begin
 		-- vmem_addr_mux_ctrl :='0';
 		vT3_en:= '1';
 		--vt3_mux_ctrl:= "00";
+		vZ_mux_ctrl:= '1'; --new inclusion !!
 		next_state := S4;
 
 	  when S5 =>				--1
@@ -261,12 +264,13 @@ begin
        Alu_uppermux_ctrl <= vAlu_uppermux_ctrl;
        Alu_lowermux_ctrl <= vAlu_lowermux_ctrl;
        --Alu_signal_mux_ctrl <= vAlu_lowermux_ctrl(1);		--because whenever add is needed explicitly, we also need +1 as lowermux output.
-	Alu_signal_mux_ctrl <=(not vAlu_lowermux_ctrl(0)) and (not vAlu_lowermux_ctrl(1));
+	Alu_signal_mux_ctrl <=(vAlu_lowermux_ctrl(0)) and (not vAlu_lowermux_ctrl(1));
 	--new inclusion !! verify again.
        ALU_ctrl <= vALU_ctrl;
        T3_mux_ctrl <= vT3_mux_ctrl;
        T3_en <= vT3_en;
        Rpe_en <= vRpe_en;
+	Z_mux_ctrl<= vZ_mux_ctrl;
 
      if(clk'event and (clk = '1')) then
 	if(reset = '1') then
