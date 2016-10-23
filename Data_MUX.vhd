@@ -103,3 +103,31 @@ begin
 indice <= to_integer(unsigned(control_bits));
  Dout <= Din(indice);
 end Formula_mux_1;
+
+------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+USE ieee.numeric_std.ALL;
+library work;
+use work.Microprocessor_project.all;
+
+
+entity Data_MUX_2 is
+generic (control_bit_width:integer);
+port(Din:in Data_in_2( (2**control_bit_width)-1 downto 0);
+	Dout:out std_logic_vector(1 downto 0);
+	control_bits:in std_logic_vector(control_bit_width-1 downto 0)
+);
+end Data_MUX_2;
+
+
+architecture  Formula_mux_2 of Data_MUX_2 is
+signal indice:integer:=0;
+begin
+
+
+indice <= to_integer(unsigned(control_bits));
+ Dout <= Din(indice);
+end Formula_mux_2;
+

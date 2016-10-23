@@ -6,6 +6,7 @@ use ieee.std_logic_1164.all;
 
 package Microprocessor_project is
 type Data_in is array (natural range <>) of std_logic_vector(15 downto 0);
+type Data_in_2 is array (natural range <>) of std_logic_vector(1 downto 0);
 type Data_in_3 is array (natural range <>) of std_logic_vector(2 downto 0);
 type Data_in_8 is array (natural range <>) of std_logic_vector(7 downto 0);
 type Data_in_1 is array (natural range <>) of std_logic_vector(0 downto 0);
@@ -142,6 +143,17 @@ port(Din:in Data_in_3( (2**control_bit_width)-1 downto 0);
 	control_bits:in std_logic_vector(control_bit_width-1 downto 0)
 );
 end component;
+
+--- used to multiplex 2 bit data
+component Data_MUX_2 is
+generic (control_bit_width:integer);
+port(Din:in Data_in_2( (2**control_bit_width)-1 downto 0);
+	Dout:out std_logic_vector(1 downto 0);
+	control_bits:in std_logic_vector(control_bit_width-1 downto 0)
+);
+end component;
+
+
 
 --data extender
 component data_extender_9to16 is

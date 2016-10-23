@@ -36,7 +36,7 @@ dut13:full_adder port map(X=> x(13),Y=> y(13),c_in=>c12,s=>s(13),c_out=>c13);
 dut14:full_adder port map(X=> x(14),Y=> y(14),c_in=>c13,s=>s(14),c_out=>c14);
 dut15:full_adder port map(X=> x(15),Y=> y(15),c_in=>c14,s=>sum_16,c_out=>c15);
 
-cout <= c14 and (x(15) xnor y(15));
+c_out <= c14 and (x(15) xnor y(15));
 s(15) <= (x(15) and (x(15) xnor y(15))) or (sum_16 and (x(15) xor y(15)));
 
 

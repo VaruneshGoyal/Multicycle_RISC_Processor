@@ -23,7 +23,6 @@ port (clk:in std_logic;
 	rpe_en :in std_logic;
 	alu_mux_upper_cntrl0,alu_mux_upper_cntrl1:in std_logic;
 	alu_mux_lower_cntrl0,alu_mux_lower_cntrl1:in std_logic;
-	alu_cntrl0,alu_cntrl1:in std_logic;
 	carry_reg_en:in std_logic;
 	zero_reg_en:in std_logic;
 	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
@@ -31,11 +30,11 @@ port (clk:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
 	mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
-	
+	Alu_signal_mux_ctrl :in std_logic;
 	--carry_reg_out: out std_logic;
 	--zero_reg_out: out std_logic;
 	instr_reg_out :out std_logic_vector(15 downto 0);
-	pe_zero_flag :out std_logic;
+	--pe_zero_flag :out std_logic;
 	S1_decoder_output :out std_logic_vector(3 downto 0);
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
@@ -124,16 +123,18 @@ constant const_sig_1 :std_logic_vector( 15 downto 0):="0000000000000001";
 
 --ALU signals
 signal alu_output:std_logic_vector(15 downto 0);
-
+signal alu_cntrl0,alu_cntrl1 :std_logic;
 --signal alu_cntrl0,alu_cntrl1:std_logic;
 signal alu_carry_flag,alu_zero_flag:std_logic;
 
 --carry reg signal
 signal carry_reg_out_sig:std_logic;
+signal carry_reg_enable:std_logic;
 --signal carry_reg_en:std_logic;
 
 --zero reg signal
 signal zero_reg_out_sig:std_logic;
+signal zero_reg_enable:std_logic;
 --signal zero_reg_en:std_logic;
 
 --T3_MUX signals
@@ -160,6 +161,10 @@ signal zerochecker_z_out: std_logic;
 --zero flag mux signal
 signal zero_flag_mux_output: std_logic;
 
+-- alunflag decoder signal
+
+signal carry_decoder_output,zero_decoder_output:std_logic;
+signal ALU_decoder_output:std_logic_vector(1 downto 0);
 begin
 
 
@@ -287,13 +292,15 @@ dut_alu : ALU port map( X=> alu_mux_upper_out,Y=>alu_mux_lower_out,
 dut_carry_reg : DataRegister    generic map (data_width=>1)
 			  	port map (Din(0) => alu_carry_flag,
 	      		  	Dout(0) => carry_reg_out_sig,
-	     		  	clk=>clk, enable=>carry_reg_en,reset=>reset);
+	     		  	clk=>clk, enable=>carry_reg_enable,reset=>reset);
+carry_reg_enable<= carry_reg_en and carry_decoder_output;
 
 --zero reg
 dut_zero_reg : DataRegister generic map (data_width=>1)
 			    port map (Din(0) => zero_flag_mux_output,
 	      		    Dout(0) => zero_reg_out_sig,
-	     		    clk=>clk, enable=>zero_reg_en,reset=>reset);
+	     		    clk=>clk, enable=>zero_reg_enable,reset=>reset);
+zero_reg_enable<= zero_reg_en and zero_decoder_output;
 
 --t3_MUX
 dut_mux_t3: Data_MUX    generic map(control_bit_width=>2) 
@@ -351,20 +358,28 @@ dutS3_decoder:S3_decoder port map ( i0=>Instr_sig(12),  i2=>Instr_sig(14),i3=> I
 
 --- s6 decoder
 
-dutS6_decoder:S6_decoder port map( i1=>Instr_sig(13), z_Rpe=>zerochecker_z_out,
+dutS6_decoder:S6_decoder port map( i1=>Instr_sig(13), z_Rpe=>pe_zero_checker_output,
       S6_decoder_out=>S6_decoder_output  );
 
 -- s12 decoder
 
-dutS12_decoder:S12_decoder port map( z_Rpe => zerochecker_z_out,
+dutS12_decoder:S12_decoder port map( z_Rpe => pe_zero_checker_output,
       S12_decoder_out => S12_decoder_output );
 
+--alu n flag decoder
+dut_alunflag_decoder:ALUnFLAG_decoder port map( IR15 =>Instr_sig(15), IR14=>Instr_sig(14), IR13=>Instr_sig(13),
+      ALU_decoder_out =>ALU_decoder_output,
+      carry_decoder_out=> carry_decoder_output, zero_decoder_out=> zero_decoder_output );
 
-
+--alu control mux
+dut_alu_cntrl_mux:Data_MUX_2 generic map (control_bit_width=>1)
+				port map(Din(0) => "00" ,Din(1) =>ALU_decoder_output,
+					Dout(0)=>alu_cntrl0,Dout(1) =>alu_cntrl1,
+					control_bits(0)=> Alu_signal_mux_ctrl );
 --carry_reg_out<=carry_reg_out_sig;
 --zero_reg_out<=zero_reg_out_sig;
 instr_reg_out<=instr_sig;
-pe_zero_flag <=pe_zero_checker_output;
+--pe_zero_flag <=pe_zero_checker_output;
 
 
 end Formula_Data_Path;
