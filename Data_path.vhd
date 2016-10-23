@@ -367,7 +367,7 @@ dutS12_decoder:S12_decoder port map( z_Rpe => pe_zero_checker_output,
       S12_decoder_out => S12_decoder_output );
 
 --alu n flag decoder
-dut_alunflag_decoder:ALUnFLAG_decoder port map( IR15 =>Instr_sig(15), IR14=>Instr_sig(14), IR13=>Instr_sig(13),
+dut_alunflag_decoder:ALUnFLAG_decoder port map( IR15 =>Instr_sig(15), IR14=>Instr_sig(14), IR13=>Instr_sig(13), IR12 => Instr_sig(12),
       ALU_decoder_out =>ALU_decoder_output,
       carry_decoder_out=> carry_decoder_output, zero_decoder_out=> zero_decoder_output );
 
