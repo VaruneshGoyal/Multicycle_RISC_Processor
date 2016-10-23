@@ -8,7 +8,7 @@ entity IITB_RISC_Controlpath is
 		-- carry_flag, zero_flag: in std_logic; not needed anymore as being handled by decoders after states
 		carry_en, zero_en: out std_logic;
 		zero_mux_ctrl: out std_logic;
-		Rpe_zero_checker: in std_logic;
+		--Rpe_zero_checker: in std_logic;
 		mem_read_en, mem_write_en, mem_address_mux_ctrl: out std_logic;		
 		IR_en: out std_logic;							
 		Rpe_mux_ctrl: out std_logic; -- rpe_mux_cntrl
@@ -31,7 +31,7 @@ entity IITB_RISC_Controlpath is
 		T3_en: out std_logic;
 		clk, reset: in std_logic;
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
-		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0);
+		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0)
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
