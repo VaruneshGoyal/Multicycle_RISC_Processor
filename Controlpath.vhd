@@ -5,7 +5,7 @@ use ieee.std_logic_1164.all;
 
 entity IITB_RISC_Controlpath is
 	port (
-		carry_flag, zero_flag: in std_logic;
+		-- carry_flag, zero_flag: in std_logic; not needed anymore as being handled by decoders after states
 		carry_en, zero_en: out std_logic;
 		zero_mux_ctrl: out std_logic;
 		Rpe_zero_checker: in std_logic;
@@ -26,13 +26,13 @@ entity IITB_RISC_Controlpath is
 		Alu_uppermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_lowermux_ctrl: out std_logic_vector(1 downto 0);
 		Alu_signal_mux_ctrl: out std_logic;
-		Alu_decoder_signal: out std_logic_vector(1 downto 0);
+		--Alu_decoder_signal: out std_logic_vector(1 downto 0);
 		T3_mux_ctrl: out std_logic_vector(1 downto 0);
 		T3_en: out std_logic;
 		clk, reset: in std_logic;
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
 		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0);
-		ALU_Decoder: in std_logic_vector(1 downto 0);
+		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		Carry_Decoder, zero_Decoder: in std_logic
 	     );
 end entity IITB_RISC_Controlpath;
@@ -78,7 +78,7 @@ begin
       variable vT2_en: std_logic;
       variable vAlu_uppermux_ctrl: std_logic_vector(1 downto 0);
       variable vAlu_lowermux_ctrl: std_logic_vector(1 downto 0);
-      variable vAlu_decoder_signal: std_logic_vector(1 downto 0);
+      --variable vAlu_decoder_signal: std_logic_vector(1 downto 0);
       variable vALU_ctrl: std_logic_vector(1 downto 0);
       variable vT3_mux_ctrl: std_logic_vector(1 downto 0);
       variable vT3_en: std_logic;
@@ -104,7 +104,7 @@ begin
        vT2_en:= '0';
        vAlu_uppermux_ctrl:= "00";
        vAlu_lowermux_ctrl:= "00";
-       vAlu_decoder_signal := "00";
+       --vAlu_decoder_signal := "00";
        vALU_ctrl:= "00";
        vT3_mux_ctrl:= "00";
        vT3_en:= '0';
@@ -140,7 +140,7 @@ begin
 		vT3_mux_ctrl:= "01";
 		vT3_en:= '1';
 		valu_lowermux_ctrl := "10";
-		vAlu_decoder_signal := ALU_decoder;
+		--vAlu_decoder_signal := ALU_decoder;
 		vcarry_en := Carry_decoder;
 		vzero_en := Zero_decoder;
 		next_state := S3_decoder;
@@ -289,7 +289,7 @@ begin
        --Alu_signal_mux_ctrl <= vAlu_lowermux_ctrl(1);		--because whenever add is needed explicitly, we also need +1 as lowermux output.
 	Alu_signal_mux_ctrl <=(vAlu_lowermux_ctrl(0)) and (not vAlu_lowermux_ctrl(1));
 	--new inclusion !! verify again.
-       Alu_decoder_signal <= vAlu_decoder_signal;
+       --Alu_decoder_signal <= vAlu_decoder_signal;
        T3_mux_ctrl <= vT3_mux_ctrl;
        T3_en <= vT3_en;
        Rpe_en <= vRpe_en;
