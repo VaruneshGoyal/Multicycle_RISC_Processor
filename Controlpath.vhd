@@ -33,7 +33,7 @@ entity IITB_RISC_Controlpath is
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
 		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0);
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
-		Carry_Decoder, zero_Decoder: in std_logic
+		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
 end entity IITB_RISC_Controlpath;
 
@@ -141,8 +141,8 @@ begin
 		vT3_en:= '1';
 		valu_lowermux_ctrl := "10";
 		--vAlu_decoder_signal := ALU_decoder;
-		vcarry_en := Carry_decoder;
-		vzero_en := Zero_decoder;
+		vcarry_en := '1';
+		vzero_en := '1';
 		next_state := S3_decoder;
 
 	  when S4 =>				--1
@@ -160,7 +160,7 @@ begin
 		vZ_mux_ctrl:= '1'; --new inclusion !!
 		vzero_mux_ctrl := '1';
 		--vcarry_en := '0';  --for the LW instruction only is this state used
-		vzero_en := Zero_decoder;
+		vzero_en := '1';
 		next_state := S4;
 
 	  when S5 =>				--1
