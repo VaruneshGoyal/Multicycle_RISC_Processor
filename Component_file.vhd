@@ -64,12 +64,11 @@ component Reg_File is
 
 port( A1,A2,A3: in std_logic_vector(2 downto 0);
       D1, D2: out std_logic_vector(15 downto 0);
-      write_enable,clk,reset: in std_logic;
+      write_enable,clk, reset: in std_logic;
       pc_enable:in std_logic;
       D3: in std_logic_vector( 15 downto 0);
       R7_data_in : in std_logic_vector(15 downto 0);
       R7_data_out : out std_logic_vector(15 downto 0)
-	
 );
 end component;
 
@@ -248,7 +247,7 @@ port (clk:in std_logic;
 	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
 	t3_en:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
-	mem_read_en,mem_write_en:in std_logic;
+	--mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
 	Alu_signal_mux_ctrl :in std_logic;
 	--carry_reg_out: out std_logic;
@@ -259,7 +258,10 @@ port (clk:in std_logic;
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
 	S6_decoder_output :out std_logic_vector(3 downto 0);
-	S12_decoder_output :out std_logic_vector(3 downto 0)
+	S12_decoder_output :out std_logic_vector(3 downto 0);
+
+	mem_data_output:in std_logic_vector(15 downto 0);
+	mem_addr_mux_output: out std_logic_vector(15 downto 0)
 );
 
 end component;
@@ -299,6 +301,15 @@ component IITB_RISC_Controlpath is
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
+end component;
+
+component IITB_RISC_Microprocessor is
+port(
+clk,reset:in std_logic;
+from_memory_data: in std_logic_vector(15 downto 0);
+to_memory_address: out std_logic_vector(15 downto 0);
+mem_read_en_sig, mem_write_en_sig : out std_logic 
+);
 end component;
 
 
