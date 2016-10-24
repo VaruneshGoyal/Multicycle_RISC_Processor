@@ -8,7 +8,7 @@ entity Reg_File is
 
 port( A1,A2,A3: in std_logic_vector(2 downto 0);
       D1, D2: out std_logic_vector(15 downto 0);
-      write_enable,clk: in std_logic;
+      write_enable,clk,reset: in std_logic;
       pc_enable:in std_logic;
       D3: in std_logic_vector( 15 downto 0);
       R7_data_in : in std_logic_vector(15 downto 0);
@@ -34,15 +34,15 @@ begin
 	enable_bit(7)<=(decoded_addr(7) and write_enable) or pc_enable ; 
 	-- the write to pc is enable if pc_enable is set or write enable is set with address of r7.
 	
-	dut_0 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R0_D, Enable => enable_bit(0), clk => clk);
-	dut_1 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R1_D, Enable => enable_bit(1), clk => clk);
-	dut_2 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R2_D, Enable => enable_bit(2), clk => clk);
-	dut_3 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R3_D, Enable => enable_bit(3), clk => clk) ;             
+	dut_0 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R0_D, Enable => enable_bit(0), clk => clk,reset=>reset);
+	dut_1 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R1_D, Enable => enable_bit(1), clk => clk,reset=>reset);
+	dut_2 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R2_D, Enable => enable_bit(2), clk => clk,reset=>reset);
+	dut_3 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R3_D, Enable => enable_bit(3), clk => clk,reset=>reset) ;             
 
-	dut_4 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R4_D, Enable => enable_bit(4), clk => clk);
-	dut_5 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R5_D, Enable => enable_bit(5), clk => clk);
-	dut_6 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R6_D, Enable => enable_bit(6), clk => clk);
-	dut_7 : DataRegister generic map (data_width => 16) port map (Din => R7_Din_sig, Dout => R7_Dout_sig, Enable => enable_bit(7) , clk => clk);
+	dut_4 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R4_D, Enable => enable_bit(4), clk => clk,reset=>reset);
+	dut_5 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R5_D, Enable => enable_bit(5), clk => clk,reset=>reset);
+	dut_6 : DataRegister generic map (data_width => 16) port map (Din => D3, Dout => R6_D, Enable => enable_bit(6), clk => clk,reset=>reset);
+	dut_7 : DataRegister generic map (data_width => 16) port map (Din => R7_Din_sig, Dout => R7_Dout_sig, Enable => enable_bit(7) , clk => clk,reset=>reset);
 
 	R7_data_out<=R7_Dout_sig;
 	R7_D<= R7_Dout_sig;

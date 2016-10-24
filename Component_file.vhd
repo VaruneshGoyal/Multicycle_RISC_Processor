@@ -64,11 +64,12 @@ component Reg_File is
 
 port( A1,A2,A3: in std_logic_vector(2 downto 0);
       D1, D2: out std_logic_vector(15 downto 0);
-      write_enable,clk: in std_logic;
+      write_enable,clk,reset: in std_logic;
       pc_enable:in std_logic;
       D3: in std_logic_vector( 15 downto 0);
       R7_data_in : in std_logic_vector(15 downto 0);
       R7_data_out : out std_logic_vector(15 downto 0)
+	
 );
 end component;
 
