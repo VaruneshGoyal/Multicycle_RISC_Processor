@@ -28,7 +28,7 @@ port (clk:in std_logic;
 	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
 	t3_en:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
-	--mem_read_en,mem_write_en:in std_logic;
+	mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
 	Alu_signal_mux_ctrl :in std_logic;
 	--carry_reg_out: out std_logic;
@@ -39,10 +39,10 @@ port (clk:in std_logic;
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
 	S6_decoder_output :out std_logic_vector(3 downto 0);
-	S12_decoder_output :out std_logic_vector(3 downto 0);
+	S12_decoder_output :out std_logic_vector(3 downto 0)
 
-	mem_addr_mux_output: out std_logic_vector(15 downto 0);
-	mem_data_output: in std_logic_vector(15 downto 0)
+	--mem_addr_mux_output: out std_logic_vector(15 downto 0);
+	--mem_data_output: in std_logic_vector(15 downto 0)
 );
 
 
@@ -149,11 +149,11 @@ signal t3_output:std_logic_vector(15 downto 0);
 --signal t3_en:std_logic;
 
 --MEM_ADDR MUX signals
---signal mem_addr_mux_output:std_logic_vector(15 downto 0);
+signal mem_addr_mux_output:std_logic_vector(15 downto 0);
 --signal mem_addr_mux_cntrl:std_logic;
 
 --memory signals
---signal mem_data_output:std_logic_vector(15 downto 0);
+signal mem_data_output:std_logic_vector(15 downto 0);
 --signal mem_read_en,mem_write_en:std_logic;
 
 -- pe zerochecker signal
@@ -323,13 +323,13 @@ dut_mux_mem_addr: Data_MUX      generic map(control_bit_width=>1)
 				port map(Din(0) =>t3_output , Din(1) =>pc_data_out, 
 				Dout=> mem_addr_mux_output ,
 				control_bits(0)=>mem_addr_mux_cntrl);
---- Memory
---dut_memory :Memory port map (Din=> t1_output,
---			Dout => mem_data_output,
---			write_enable=>mem_write_en,
---			read_enable=>mem_read_en,
---			clk=>clk,
---			Addr=>  mem_addr_mux_output);
+-- Memory
+dut_memory :Memory port map (Din=> t1_output,
+			Dout => mem_data_output,
+			write_enable=>mem_write_en,
+			read_enable=>mem_read_en,
+			clk=>clk,
+			Addr=>  mem_addr_mux_output);
 
 
 

@@ -5,10 +5,10 @@ use work.Microprocessor_project.all;
 
 entity IITB_RISC_Microprocessor is
 port(
-clk,reset:in std_logic;
-from_memory_data: in std_logic_vector(15 downto 0);
-to_memory_address: out std_logic_vector(15 downto 0);
-mem_read_en_sig, mem_write_en_sig : out std_logic 
+clk,reset:in std_logic
+--from_memory_data: in std_logic_vector(15 downto 0);
+--to_memory_address: out std_logic_vector(15 downto 0);
+--mem_read_en_sig, mem_write_en_sig : out std_logic 
 );
 end entity;
 
@@ -32,7 +32,7 @@ signal carry_reg_en_sig, zero_reg_en_sig: std_logic;
 signal t3_mux_cntrl0_sig, t3_mux_cntrl1_sig:std_logic;
 signal t3_en_sig :std_logic;
 signal mem_addr_mux_cntrl_sig:std_logic;
---signal mem_read_en_sig,mem_write_en_sig :std_logic;
+signal mem_read_en_sig,mem_write_en_sig :std_logic;
 signal z_mux_cntrl_sig:std_logic;
 signal Alu_signal_mux_ctrl_sig :std_logic;
 signal instr_reg_out_sig :std_logic_vector(15 downto 0);
@@ -102,7 +102,7 @@ dut_data_path: Data_path
 		t3_mux_cntrl0 => t3_mux_cntrl0_sig,t3_mux_cntrl1 => t3_mux_cntrl1_sig,
 		t3_en => t3_en_sig,
 		mem_addr_mux_cntrl => mem_addr_mux_cntrl_sig,
-		--mem_read_en => mem_read_en_sig, mem_write_en => mem_write_en_sig,
+		mem_read_en => mem_read_en_sig, mem_write_en => mem_write_en_sig,
 		z_mux_cntrl => z_mux_cntrl_sig,
 		Alu_signal_mux_ctrl => Alu_signal_mux_ctrl_sig,
 		--carry_reg_out: out std_logic;
@@ -113,10 +113,10 @@ dut_data_path: Data_path
 		S2_decoder_output => S2_decoder_output_sig,
 		S3_decoder_output => S3_decoder_output_sig,
 		S6_decoder_output  => S6_decoder_output_sig,
-		S12_decoder_output => S12_decoder_output_sig,
+		S12_decoder_output => S12_decoder_output_sig
 
-		mem_data_output => from_memory_data,
-		mem_addr_mux_output => to_memory_address
+		--mem_data_output => from_memory_data,
+		--mem_addr_mux_output => to_memory_address
 	);
 
 

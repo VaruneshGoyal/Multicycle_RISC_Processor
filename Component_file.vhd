@@ -247,7 +247,7 @@ port (clk:in std_logic;
 	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
 	t3_en:in std_logic;
 	mem_addr_mux_cntrl:in std_logic;
-	--mem_read_en,mem_write_en:in std_logic;
+	mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
 	Alu_signal_mux_ctrl :in std_logic;
 	--carry_reg_out: out std_logic;
@@ -258,10 +258,10 @@ port (clk:in std_logic;
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
 	S6_decoder_output :out std_logic_vector(3 downto 0);
-	S12_decoder_output :out std_logic_vector(3 downto 0);
+	S12_decoder_output :out std_logic_vector(3 downto 0)
 
-	mem_data_output:in std_logic_vector(15 downto 0);
-	mem_addr_mux_output: out std_logic_vector(15 downto 0)
+	--mem_data_output:in std_logic_vector(15 downto 0);
+	--mem_addr_mux_output: out std_logic_vector(15 downto 0)
 );
 
 end component;
@@ -305,10 +305,10 @@ end component;
 
 component IITB_RISC_Microprocessor is
 port(
-clk,reset:in std_logic;
-from_memory_data: in std_logic_vector(15 downto 0);
-to_memory_address: out std_logic_vector(15 downto 0);
-mem_read_en_sig, mem_write_en_sig : out std_logic 
+clk,reset:in std_logic
+--from_memory_data: in std_logic_vector(15 downto 0);
+--to_memory_address: out std_logic_vector(15 downto 0);
+--mem_read_en_sig, mem_write_en_sig : out std_logic 
 );
 end component;
 
