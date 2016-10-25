@@ -168,6 +168,7 @@ signal zero_flag_mux_output: std_logic;
 
 signal carry_decoder_output,zero_decoder_output:std_logic;
 signal ALU_decoder_output:std_logic_vector(1 downto 0);
+signal S1_decoder_output_sig :std_logic_vector(3 downto 0);
 begin
 
 
@@ -244,7 +245,7 @@ dut_pe_modifier : encode_modifier port map (encode_bits => pe_output,
 
 --Register file
 dut_rf :Reg_File port map( A1=>A1_RF, A2=>A2_RF, A3=>A3_RF, R7_data_out=>pc_data_out, R7_data_in=>pc_data_in,
-      		 D1=>D1_RF, D2=>D2_RF, D3=>D3_RF, write_enable=>RF_write_en, clk=>clk, 
+      		 D1=>D1_RF, D2=>D2_RF, D3=>D3_RF, write_enable=>RF_write_en, clk=>clk,reset =>reset,
 		 pc_enable=>RF_pc_en);
 
 --Data mux for t1
@@ -346,8 +347,12 @@ dut_zero_flag_mux: Data_MUX_1
 -- S1 decoder
 
 dutS1_decoder :S1_decoder port map( i0=>Instr_sig(12), i1=>Instr_sig(13), i2=>Instr_sig(14), i3=> Instr_sig(15),
-      S1_decoder_out => S1_decoder_output );
+      S1_decoder_out => S1_decoder_output_sig );
+S1_decoder_output<= S1_decoder_output_sig ;
+---
 
+
+--
 -- s2 decoder
 dutS2_decoder :S2_decoder port map( i0=>Instr_sig(12),  i2=>Instr_sig(14),i3=> Instr_sig(15), p0=>Instr_sig(0), p1=>Instr_sig(1), z =>zero_reg_out_sig, c =>carry_reg_out_sig,
       S2_decoder_out => S2_decoder_output );
