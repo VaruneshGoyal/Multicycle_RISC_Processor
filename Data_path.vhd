@@ -328,8 +328,7 @@ dut_mux_mem_addr: Data_MUX      generic map(control_bit_width=>1)
 dut_memory :Memory port map (Din=> t1_output,
 			Dout => mem_data_output,
 			write_enable=>mem_write_en,
-			read_enable=>mem_read_en,
-			clk=>clk,
+			read_enable=>mem_read_en,clk=>clk,
 			Addr=>  mem_addr_mux_output);
 
 
@@ -346,7 +345,8 @@ dut_zero_flag_mux: Data_MUX_1
 		control_bits(0)=>z_mux_cntrl);
 -- S1 decoder
 
-dutS1_decoder :S1_decoder port map( i0=>Instr_sig(12), i1=>Instr_sig(13), i2=>Instr_sig(14), i3=> Instr_sig(15),
+--dutS1_decoder :S1_decoder port map( i0=>Instr_sig(12), i1=>Instr_sig(13), i2=>Instr_sig(14), i3=> Instr_sig(15),
+dutS1_decoder :S1_decoder port map( i0=>mem_data_output(12), i1=>mem_data_output(13), i2=>mem_data_output(14), i3=>mem_data_output(15),
       S1_decoder_out => S1_decoder_output_sig );
 S1_decoder_output<= S1_decoder_output_sig ;
 ---

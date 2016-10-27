@@ -13,13 +13,13 @@ constant const0:std_logic_vector(data_width-1 downto 0) := (others => '0');
 begin
     process(clk)
     begin
-	Dout<=data_sig;
+	--Dout<=data_sig;
        if(clk'event and (clk  = '1')) then
 	   if( reset ='1') then
-		data_sig <= const0;
+		Dout <= const0;
 	   else
 		   if(enable = '1' ) then
-		       data_sig <= Din;
+		       Dout <= Din;
 		   end if;
 	   end if;
        end if;

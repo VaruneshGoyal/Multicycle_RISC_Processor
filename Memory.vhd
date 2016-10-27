@@ -9,6 +9,7 @@ entity Memory is
 port ( Din: in std_logic_vector(15 downto 0);
 	Dout: out std_logic_vector(15 downto 0);
 	write_enable,read_enable,clk: in std_logic;
+	--write_enable,read_enable: in std_logic;
 	Addr: in std_logic_vector(15 downto 0)
 );
 end Memory;
@@ -16,28 +17,27 @@ end Memory;
 architecture Formula_Memory of Memory is
 signal Data :Data_in(65535 downto 0):= (
 0 => "0100000001001010", -- Lw r0, r1, 10
-1 => "0100001010001010", -- Lw r1, r2, 10
-2 => "0000100000001000", -- ADD r4,r1,r0
-3 => "0000000000000001",
-4 => "0000000000000011",
+1 => "0100001010001011", -- Lw r1, r2, 11
+2 => "0010100000001000", -- NAND r4,r1,r0
+3 => "0000101101101000", -- ADD r0 <- r5
+4 => "0010101100001001",	
 5 => "0000000000000100",
 6 => "0000000000000101",
 7 => "0000000000000110",
 8 => "0110001001111100",
 9 => "1100100101001010",
-10 =>"0000000000000100",
+10 =>"0000000000000101",
+11 => "000000000001100",
 others=>"0000000111010010"
 );
 
 
-
-
 begin
- process(clk)
+ process(clk)		--process(clk)
     begin
         
                --Dout <= Data(to_integer(unsigned(Addr)));
-        if falling_edge(clk) then
+        if (clk'event and (clk  = '0')) then
                 if (write_enable = '1') then
                     Data(to_integer(unsigned(Addr))) <= Din  ;
                 end if;

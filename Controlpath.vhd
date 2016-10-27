@@ -120,16 +120,18 @@ begin
 
           when S2 => 				--1, 3, 9
 		vA1_mux_ctrl(0) := Inst(14);
-		-- in this state vA1_mux_ctrl(1) := '0';
+		--in this state vA1_mux_ctrl(1) := '0';
 		vR7_mux_ctrl := '1';
 		vPC_write := '1'; --- bit reversed !!
 		vT1_mux_ctrl(0) := Inst(12) or (Inst(14) and (not Inst(15)));
+		vT1_mux_ctrl(1) := '0';
 		vT1_en:= '1';
 		vT2_mux_ctrl := '1';
 		vT2_en := '1';
 		next_state := S2_decoder;
 		--valu_upper_mux_cntrl := "00";
 		--valu_lower_mux_cntrl := "00";
+
 	  when S3 =>				--1, 4, 6, 7
 		vA1_mux_ctrl := "01";
 		vT1_en := '1';
