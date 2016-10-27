@@ -128,6 +128,8 @@ begin
 		vT1_en:= '1';
 		vT2_mux_ctrl := '1';
 		vT2_en := '1';
+		vT3_en := '1';		--added this
+		vT3_mux_ctrl := "01";	--added this to take input from alu
 		next_state := S2_decoder;
 		--valu_upper_mux_cntrl := "00";
 		--valu_lower_mux_cntrl := "00";
@@ -287,7 +289,7 @@ begin
        Alu_uppermux_ctrl <= vAlu_uppermux_ctrl;
        Alu_lowermux_ctrl <= vAlu_lowermux_ctrl;
        --Alu_signal_mux_ctrl <= vAlu_lowermux_ctrl(1);		--because whenever add is needed explicitly, we also need +1 as lowermux output.
-	Alu_signal_mux_ctrl <=(vAlu_lowermux_ctrl(0)) and (not vAlu_lowermux_ctrl(1));
+	Alu_signal_mux_ctrl <= (vAlu_lowermux_ctrl(1)); -- and (not vAlu_lowermux_ctrl(1));
 	--new inclusion !! verify again.
        --Alu_decoder_signal <= vAlu_decoder_signal;
        T3_mux_ctrl <= vT3_mux_ctrl;

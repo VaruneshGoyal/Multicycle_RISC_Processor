@@ -20,7 +20,7 @@ begin
 	--S40: LW
 	--NA : LM, SM, JAL, JLR, LHI
 	S3_decoder_out(0) <= i2 and (not i0);
-	S3_decoder_out(1) <= ((not z) and i2) or ((not i3) and z and i2);
-	S3_decoder_out(2) <= (not z) or (z and (not i3));
+	S3_decoder_out(1) <= (z and i2) or ((not i3) and (NOT z) and i2);
+	S3_decoder_out(2) <= z or ((NOT z) and (not i3));
 	S3_decoder_out(3) <= i2 and (not i0) and (not i3);
 end combinational;
