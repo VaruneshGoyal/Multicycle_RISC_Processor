@@ -27,6 +27,7 @@ port (clk:in std_logic;
 	zero_reg_en:in std_logic;
 	t3_mux_cntrl0,t3_mux_cntrl1 :in std_logic;
 	t3_en:in std_logic;
+	--t4_en: in std_logic; --new addition
 	mem_addr_mux_cntrl:in std_logic;
 	mem_read_en,mem_write_en:in std_logic;
 	z_mux_cntrl: in std_logic;
@@ -170,6 +171,9 @@ signal zero_flag_mux_output: std_logic;
 signal carry_decoder_output,zero_decoder_output:std_logic;
 signal ALU_decoder_output:std_logic_vector(1 downto 0);
 signal S1_decoder_output_sig :std_logic_vector(3 downto 0);
+--t4 signals
+signal t4_output: std_logic_vector(15 downto 0);
+signal t4_en: std_logic;
 begin
 
 
@@ -275,7 +279,7 @@ dut_t2_reg : DataRegister generic map (data_width=>16)
 
 --Alu_mUX_Upper
 dut_alu_mux_upper : Data_MUX    generic map(control_bit_width=>2)
-				port map(Din(0)=> pc_data_out,Din(1)=>t1_output,Din(2)=>t3_output,Din(3)=>unused_port,
+				port map(Din(0)=> pc_data_out,Din(1)=>t1_output,Din(2)=>t3_output,Din(3)=>t4_output,
 				Dout=> alu_mux_upper_out,
 				control_bits(0)=>alu_mux_upper_cntrl0,control_bits(1)=>alu_mux_upper_cntrl1);
 
@@ -388,6 +392,12 @@ dut_alu_cntrl_mux:Data_MUX_2 generic map (control_bit_width=>1)
 				port map(Din(0) => "00" ,Din(1) =>ALU_decoder_output,
 					Dout(0)=>alu_cntrl0,Dout(1) =>alu_cntrl1,
 					control_bits(0)=> Alu_signal_mux_ctrl );
+--t4 reg
+t4_en<= not(Instr_sig(15) and Instr_sig(14));
+dut_t4_reg : DataRegister generic map (data_width=>16)
+			  port map (Din => pc_data_out,
+	      		  Dout =>  t4_output,
+	     		  clk=>clk, enable=>t4_en,reset=>reset);
 --carry_reg_out<=carry_reg_out_sig;
 --zero_reg_out<=zero_reg_out_sig;
 instr_reg_out<=instr_sig;

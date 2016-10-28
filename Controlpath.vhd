@@ -195,7 +195,7 @@ begin
 	       vAlu_lowermux_ctrl(0):=not(Inst(13)); -- bit reversed !!
 		vAlu_lowermux_ctrl(1):= '0';
 		--vAlu_decoder_signal := "00";
-	   	--vAlu_uppermux_ctrl :="00";
+	   	vAlu_uppermux_ctrl :="11";	--edit made
 		next_state := instruction_fetch;
 
 	  when S8 =>				--9
