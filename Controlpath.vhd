@@ -77,7 +77,7 @@ begin
       variable vAlu_uppermux_ctrl: std_logic_vector(1 downto 0);
       variable vAlu_lowermux_ctrl: std_logic_vector(1 downto 0);
       --variable vAlu_decoder_signal: std_logic_vector(1 downto 0);
-      variable vALU_ctrl: std_logic_vector(1 downto 0);
+      --variable vALU_ctrl: std_logic_vector(1 downto 0);
       variable vT3_mux_ctrl: std_logic_vector(1 downto 0);
       variable vT3_en: std_logic;
       variable vRpe_en: std_logic;
@@ -104,7 +104,7 @@ begin
        vAlu_uppermux_ctrl:= "00";
        vAlu_lowermux_ctrl:= "00";
        --vAlu_decoder_signal := "00";
-       vALU_ctrl:= "00";
+       --vALU_ctrl:= "00";
        vT3_mux_ctrl:= "00";
        vT3_en:= '0';
        vZ_mux_ctrl:= '0';
