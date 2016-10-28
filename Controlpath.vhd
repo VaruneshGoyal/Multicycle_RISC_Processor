@@ -29,7 +29,7 @@ entity IITB_RISC_Controlpath is
 		T3_en: out std_logic;
 		clk, reset: in std_logic;
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
-		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0)
+		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S11_decoder, S14_decoder : in std_logic_vector(3 downto 0)
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
@@ -90,6 +90,7 @@ begin
        vmem_read_en:= '0'; vmem_write_en:= '0'; vmem_address_mux_ctrl:= '0';		
        vIR_en := '0';							
        vRpe_mux_ctrl := '0';
+       vRpe_en := '0';
        vD3_mux_ctrl := "00";
        vA1_mux_ctrl := "00";
        vA3_mux_ctrl := '0';
@@ -237,7 +238,7 @@ begin
 	       vT1_mux_ctrl := "10";	
 	       vT1_en:= '1';
 		--vmem_addr_mux_ctlr :='0';
-		next_state := S12;
+		next_state := S11_decoder;--next_state := S12;
 
 	  when S12 =>				--1, 11
 	       vD3_mux_ctrl := "10";
@@ -250,7 +251,7 @@ begin
 	       vT3_en:= '1';
 		vRpe_en := '1'; -- new inclusion !!
 		--vRpe_mux_ctrl :='0';
-		next_state := S12_decoder;
+		next_state := S11; --next_state := S12_decoder;
 
 	  when S13 =>				--14							
 	       vRpe_mux_ctrl := '1';
@@ -264,7 +265,7 @@ begin
 	       vA1_mux_ctrl := "10";	
 	       vT1_en:= '1';
 		--vT1_mux_ctrl := "00";
-		next_state := S6;
+		next_state := S14_decoder;
 	
 	  when others =>
 		next_state := reset_state;

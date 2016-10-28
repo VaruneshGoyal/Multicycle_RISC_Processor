@@ -40,7 +40,9 @@ signal S1_decoder_output_sig :std_logic_vector(3 downto 0);
 signal S2_decoder_output_sig :std_logic_vector(3 downto 0);
 signal S3_decoder_output_sig :std_logic_vector(3 downto 0);
 signal S6_decoder_output_sig :std_logic_vector(3 downto 0);
-signal S12_decoder_output_sig :std_logic_vector(3 downto 0);
+signal S14_decoder_output_sig :std_logic_vector(3 downto 0);
+signal S11_decoder_output_sig :std_logic_vector(3 downto 0);
+
 
 begin
 
@@ -74,7 +76,8 @@ dut_control_path : IITB_RISC_Controlpath
 		S2_decoder=> S2_decoder_output_sig,
 		S3_decoder=> S3_decoder_output_sig,
 		S6_decoder=> S6_decoder_output_sig,
-		 S12_decoder =>S12_decoder_output_sig
+		S14_decoder =>S14_decoder_output_sig,
+		S11_decoder =>S11_decoder_output_sig
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
@@ -113,7 +116,8 @@ dut_data_path: Data_path
 		S2_decoder_output => S2_decoder_output_sig,
 		S3_decoder_output => S3_decoder_output_sig,
 		S6_decoder_output  => S6_decoder_output_sig,
-		S12_decoder_output => S12_decoder_output_sig
+		S14_decoder_output => S14_decoder_output_sig,
+		S11_decoder_output =>S11_decoder_output_sig
 
 		--mem_data_output => from_memory_data,
 		--mem_addr_mux_output => to_memory_address

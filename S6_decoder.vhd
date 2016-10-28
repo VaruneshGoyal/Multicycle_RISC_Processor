@@ -15,11 +15,11 @@ architecture combinational of S6_decoder is
 begin
 	--S1 : SW
 	--S7 : SM&Rpe=0
-	--S14: SM&(Rpe!=0)
+	----S14: SM&(Rpe!=0)
 	--NA : others
-	S6_decoder_out(0) <= z_Rpe or ((not z_Rpe) and (not i1));
+	S6_decoder_out(0) <= not i1;
 	S6_decoder_out(1) <= i1;
 	S6_decoder_out(2) <= i1;
-	S6_decoder_out(3) <= (not z_Rpe) and i1;
+	S6_decoder_out(3) <= i1;
 end combinational;
       

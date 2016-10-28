@@ -39,7 +39,8 @@ port (clk:in std_logic;
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
 	S6_decoder_output :out std_logic_vector(3 downto 0);
-	S12_decoder_output :out std_logic_vector(3 downto 0)
+	S11_decoder_output :out std_logic_vector(3 downto 0);
+	S14_decoder_output :out std_logic_vector(3 downto 0)
 
 	--mem_addr_mux_output: out std_logic_vector(15 downto 0);
 	--mem_data_output: in std_logic_vector(15 downto 0)
@@ -369,10 +370,13 @@ dutS3_decoder:S3_decoder port map ( i0=>Instr_sig(12),  i2=>Instr_sig(14),i3=> I
 dutS6_decoder:S6_decoder port map( i1=>Instr_sig(13), z_Rpe=>pe_zero_checker_output,
       S6_decoder_out=>S6_decoder_output  );
 
--- s12 decoder
+-- s14 decoder
 
-dutS12_decoder:S12_decoder port map( z_Rpe => pe_zero_checker_output,
-      S12_decoder_out => S12_decoder_output );
+dutS14_decoder:S14_decoder port map( z_Rpe => pe_zero_checker_output,
+      S14_decoder_out => S14_decoder_output );
+
+dutS11_decoder:S11_decoder port map( z_Rpe => pe_zero_checker_output,
+      S11_decoder_out => S11_decoder_output );
 
 --alu n flag decoder
 dut_alunflag_decoder:ALUnFLAG_decoder port map( IR15 =>Instr_sig(15), IR14=>Instr_sig(14), IR13=>Instr_sig(13), IR12=>Instr_sig(12),

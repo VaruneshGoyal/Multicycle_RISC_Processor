@@ -211,9 +211,21 @@ port( i1, z_Rpe: in std_logic;
  );
 end component;
 
+component S11_decoder is
+port( z_Rpe: in std_logic;
+      S11_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
 component S12_decoder is
 port( z_Rpe: in std_logic;
       S12_decoder_out : out std_logic_vector(3 downto 0)
+ );
+end component;
+
+component S14_decoder is
+port( z_Rpe: in std_logic;
+      S14_decoder_out : out std_logic_vector(3 downto 0)
  );
 end component;
 
@@ -258,7 +270,9 @@ port (clk:in std_logic;
 	S2_decoder_output :out std_logic_vector(3 downto 0);
 	S3_decoder_output :out std_logic_vector(3 downto 0);
 	S6_decoder_output :out std_logic_vector(3 downto 0);
-	S12_decoder_output :out std_logic_vector(3 downto 0)
+	S14_decoder_output :out std_logic_vector(3 downto 0);
+
+	S11_decoder_output :out std_logic_vector(3 downto 0)
 
 	--mem_data_output:in std_logic_vector(15 downto 0);
 	--mem_addr_mux_output: out std_logic_vector(15 downto 0)
@@ -297,7 +311,7 @@ component IITB_RISC_Controlpath is
 		T3_en: out std_logic;
 		clk, reset: in std_logic;
 		Inst: in std_logic_vector(15 downto 0);			--check if all necessary
-		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S12_decoder : in std_logic_vector(3 downto 0)
+		S1_Decoder, S2_decoder, S3_decoder, S6_decoder, S11_decoder, S14_decoder : in std_logic_vector(3 downto 0)
 		--ALU_Decoder_in: in std_logic_vector(1 downto 0);
 		--Carry_Decoder, zero_Decoder: in std_logic
 	     );
